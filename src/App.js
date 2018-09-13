@@ -10,20 +10,36 @@ class App extends React.Component {
         isLoading: false
     };
 
+    static getDerivedStateFromProps(props, state) {
+        let nextFilteredNews;
+
+        if (Array.isArray(state.news)) {
+            nextFilteredNews = [...state.news];
+            nextFilteredNews.forEach((item, index) => {
+                if (item.bigText.toLowerCase().indexOf('pubg') !== -1) {
+                    item.bigText = 'СПАМ'
+                }
+            });
+            return {
+                filteredNews: nextFilteredNews,
+            }
+        }
+        return null
+    }
+
     handleAddNews = data => {
         const nextNews = [data, ...this.state.news];
         this.setState({news: nextNews});
     };
 
-    componentDidMount()
-    {
-        this.setState({ isLoading: true });
+    componentDidMount() {
+        this.setState({isLoading: true});
         fetch('http://localhost:3000/data/newsData.json')
             .then(response => {
                 return response.json()
             })
             .then(data => {
-                this.setState({ isLoading: false, news: data })
+                this.setState({isLoading: false, news: data})
             })
     }
 

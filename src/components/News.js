@@ -6,6 +6,7 @@ class News extends React.Component {
 
     renderNews = () => {
         const {data} = this.props;
+
         let newsTemplate = null;
         if (data.length) {
             newsTemplate = data.map(function (item) {
